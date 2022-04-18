@@ -1,65 +1,87 @@
 import java.util.Date;
 
 public class Rental {
-    private Video video ;
-    private int status ; // 0 for Rented, 1 for Returned
-    private Date rentDate ;
-    private Date returnDate ;
+	private enum Status {
+		RENTED, RETURNED
+	}
+	private Video video ;
+	private Status status ;
+	private Date rentDate ;
+	private Date returnDate ;
 
-    public Rental(Video video) {
-        this.video = video ;
-        status = 0 ;
-        rentDate = new Date() ;
-    }
+	public Rental(Video video) {
+		this.video = video ;
+		status = Status.RENTED ;
+		rentDate = new Date() ;
+	}
 
-    public Video getVideo() {
-        return video;
-    }
+	public Video getVideo() {
+		return video;
+	}
 
-    public void setVideo(Video video) {
-        this.video = video;
-    }
+	public void setVideo(Video video) {
+		this.video = video;
+	}
 
-    public int getStatus() {
-        return status;
-    }
+	public boolean isRented() {
+		if (status == Status.RENTED)
+			return true;
+		else
+			return false;
+	}
 
-    public void returnVideo() {
-        if ( status == 0 ) { // Bug Fix
-            this.status = 1;
-            returnDate = new Date() ;
-        }
-    }
-    public Date getRentDate() {
-        return rentDate;
-    }
+	public boolean isReturned() {
+		if (status == Status.RETURNED)
+			return true;
+		else
+			return false;
+	}
 
-    public void setRentDate(Date rentDate) {
-        this.rentDate = rentDate;
-    }
+	public void returnVideo() {
+		if ( status == Status.RENTED ) {
+			status = Status.RETURNED;
+			returnDate = new Date() ;
+		}
+	}
+	public Date getRentDate() {
+		return rentDate;
+	}
 
-    public Date getReturnDate() {
-        return returnDate;
-    }
+	public void setRentDate(Date rentDate) {
+		this.rentDate = rentDate;
+	}
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
+	public Date getReturnDate() {
+		return returnDate;
+	}
 
-    public int getDaysRentedLimit() {
-        int limit = 0;
-        int daysRented;
-        if (getStatus() == 1) { // returned Video
-            long diff = returnDate.getTime() - rentDate.getTime();
-            daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-        } else { // not yet returned
-            long diff = new Date().getTime() - rentDate.getTime();
-            daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-        }
-        if (daysRented <= 2) return limit;
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
 
-        return video.getDaysRentedLimit();
-    }
+	public int getDaysRentedLimit() {
+		int limit = 0 ;
+		int daysRented ;
+		daysRented = getDaysRented();
+		
+		if ( daysRented <= 2) return limit ;
+
+		return video.getDaysRentedLimit();
+	}
+
+	public int getDaysRented() {
+		long targetTime;		
+		if (isReturned()) {
+			targetTime = returnDate.getTime();
+		} else {
+			targetTime = new Date().getTime();
+		}
+
+		long diff = targetTime - rentDate.getTime();
+		int daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+
+		return daysRented;
+	}
 
     String getVideoTitle() {
         return video.getTitle();

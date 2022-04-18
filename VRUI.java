@@ -151,7 +151,7 @@ public class VRUI {
             System.out.println("Enter video title to register: ") ;
             String title = scanner.next();
 
-            System.out.println("Enter video type( 1 for VHD, 2 for CD, 3 for DVD ):") ;
+            System.out.println("Enter video type(VHD, CD, DVD ):") ;
             String videoType = scanner.next();
 
             System.out.println("Enter price code( 1 for Regular, 2 for New Release ):") ;
