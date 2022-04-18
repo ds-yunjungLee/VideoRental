@@ -1,5 +1,5 @@
 # VideoRental
-VideoRental_실습과제
+** 변경된 코드는 develop branch에 올려두었습니다. 
 
 1. UI와 Logic 분리
 - VRControl 클래스 추가하여 VRUI내 Logic 부분 분리
