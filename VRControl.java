@@ -63,7 +63,6 @@ public class VRControl {
             if (rental.getVideoTitle().equals(videoTitle) == false) continue;
             if (rental.isVideoRented()) {                
                 rental.returnVideo();
-                customerRentals.remove(rental);
                 break ;
             }
         }
