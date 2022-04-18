@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 
 public class Customer {
     private String name;
@@ -20,16 +20,20 @@ public class Customer {
     }
 
     public List<Rental> getRentals() {
-        return rentals;
-    }
-
-    public void setRentals(List<Rental> rentals) {
-        this.rentals = rentals;
+        return Collections.unmodifiableList(rentals);
     }
 
     public void addRental(Rental rental) {
         rentals.add(rental);
 
+    }
+
+    public void removeRental(Rental rental) {
+        rentals.remove(rental);
+    }
+    
+    public void clearRentals() {
+        rentals = new ArrayList<Rental>();;
     }
 
     public String getReport() {

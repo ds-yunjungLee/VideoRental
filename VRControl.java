@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.*;
+import java.util.Collections;
 
 public class VRControl {
     private List<Customer> customers = new ArrayList<Customer>();
@@ -55,4 +55,35 @@ public class VRControl {
     public void addCustomer(Customer customer) {
         this.customers.add(customer);
     }
+
+    public void returnVideo(Customer customer, String videoTitle) {
+
+        List<Rental> customerRentals = customer.getRentals();
+        for ( Rental rental: customerRentals ) {
+            if (rental.getVideoTitle().equals(videoTitle) == false) continue;
+            if (rental.isVideoRented()) {                
+                rental.returnVideo();
+                customerRentals.remove(rental);
+                break ;
+            }
+        }
+    }
+
+    public void rentVideo(Customer foundCustomer, String videoTitle) {
+        Video foundVideo = null ;
+
+        for ( Video video: videos) {
+            if ( video.getTitle().equals(videoTitle) && video.isRented() == false ) {
+                foundVideo = video ;
+                break ;
+            }
+        }
+
+        if ( foundVideo == null ) return ;
+
+        Rental rental = new Rental(foundVideo) ;
+        foundCustomer.addRental(rental);
+    }
+
+
 }
